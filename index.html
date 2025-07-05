@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>随机战备选择器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4682b4;
+            color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        header h1 {
+            margin: 0;
+        }
+        main {
+            padding: 20px;
+        }
+        button {
+            background-color: #4682b4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #5a9bd4;
+        }
+        #result {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .item {
+            margin: 10px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 150px;
+        }
+        .item h3 {
+            font-size: 18px;
+            margin: 0;
+        }
+        /* 现有颜色类 */
+        .red { color: red; }
+        .blue { color: blue; }
+        .green { color: green; }
+        /* 新增颜色类 */
+        .black { color: black; }
+        .orange { color: orange; }
+        .purple { color: purple; }
+
+        #cooldownMessage {
+            margin-top: 20px;
+            color: green;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>随机战备选择器</h1>
+</header>
+<main>
+    <!-- 在这里添加一个页脚，用于显示来源信息 -->
+    <footer>
+        <p style="font-size: 12px; color: #666; margin-top: 40px;">
+            本工具代码以http://www.almaltheas.top:4567/为基础修改而成。20s点击冷却或者刷新页面即可再次点击。
+            <br>
+            This tool's code is modified based on http://www.almaltheas.top:4567/ .20s click cd.
+        </p>
+    </footer>
+    <!-- 修正了按钮的ID，使其唯一 -->
+    <button id="randomButton1" onclick="selectRandomItems(1)">难度1(2红1蓝1绿)</button>
+    <button id="randomButton2" onclick="selectRandomItems(2)">难度2(非冷门)</button>
+    <button id="randomButton3" onclick="selectRandomItems(3)">难度3(只有战备)</button>
+    <button id="randomButton4" onclick="selectRandomItems(4)">难度4(4战备+1主+1副+1雷)</button>
+
+    <div id="result"></div>
+    <div id="cooldownMessage"></div>
+</main>
+<script>
+    const items = [
+        { name: '跳包', color: 'blue', popularity: 'uncommon' },
+        { name: '补给背包', color: 'blue', popularity: 'common' },
+        { name: '激光护卫犬', color: 'blue', popularity: 'common' },
+        { name: '步枪护卫犬', color: 'blue', popularity: 'uncommon' },
+        { name: '毒气护卫犬', color: 'blue', popularity: 'uncommon' },
+        { name: '防弹盾', color: 'blue', popularity: 'uncommon' },
+        { name: '蛋盾', color: 'blue', popularity: 'common' },
+        { name: 'MG43机枪', color: 'blue', popularity: 'common' },
+        { name: '反器材狙', color: 'blue', popularity: 'common' },
+        { name: 'M105盟友', color: 'blue', popularity: 'common' },
+        { name: '次抛', color: 'blue', popularity: 'common' },
+        { name: '无后座', color: 'blue', popularity: 'common' },
+        { name: '喷火器', color: 'blue', popularity: 'common' },
+        { name: '喷毒器', color: 'blue', popularity: 'uncommon' },
+        { name: 'W.A.S.P发射器', color: 'blue', popularity: 'common' },
+        { name: '机炮', color: 'blue', popularity: 'common' },
+        { name: 'MG206重机枪', color: 'blue', popularity: 'common' },
+        { name: '磁轨炮', color: 'blue', popularity: 'common' },
+        { name: '飞矛', color: 'blue', popularity: 'common' },
+        { name: '榴弹发射器', color: 'blue', popularity: 'common' },
+        { name: '激光大炮', color: 'blue', popularity: 'common' },
+        { name: '电弧', color: 'blue', popularity: 'common' },
+        { name: '类星体', color: 'blue', popularity: 'common' },
+        { name: '悬浮背包', color: 'blue', popularity: 'common' },
+        { name: '地狱火背包', color: 'blue', popularity: 'common' },
+        { name: '突击兵', color: 'blue', popularity: 'common' },
+        { name: '爱国者动力装甲', color: 'blue', popularity: 'common' },
+        { name: '黑曜石动力装甲', color: 'blue', popularity: 'common' },
+        { name: '侦查小车', color: 'blue', popularity: 'uncommon' },
+        { name: '单向护盾', color: 'blue', popularity: 'uncommon' },
+        { name: '轨道加特林', color: 'red', popularity: 'common' },
+        { name: '轨道空爆', color: 'red', popularity: 'common' },
+        { name: '轨道120', color: 'red', popularity: 'common' },
+        { name: '轨道380', color: 'red', popularity: 'common' },
+        { name: '轨道游走火力网', color: 'red', popularity: 'common' },
+        { name: '轨道激光', color: 'red', popularity: 'common' },
+        { name: '轨道炮', color: 'red', popularity: 'common' },
+        { name: '轨道精准', color: 'red', popularity: 'common' },
+        { name: '轨道毒气', color: 'red', popularity: 'common' },
+        { name: '轨道电磁', color: 'red', popularity: 'uncommon' },
+        { name: '轨道烟雾', color: 'red', popularity: 'uncommon' },
+        { name: '轨道燃烧弹', color: 'red', popularity: 'common' },
+        { name: '飞鹰机枪', color: 'red', popularity: 'common' },
+        { name: '飞鹰空袭', color: 'red', popularity: 'common' },
+        { name: '飞鹰集数', color: 'red', popularity: 'common' },
+        { name: '飞鹰汽油弹', color: 'red', popularity: 'common' },
+        { name: '飞鹰烟雾', color: 'red', popularity: 'uncommon' },
+        { name: '飞鹰110', color: 'red', popularity: 'common' },
+        { name: '飞鹰500', color: 'red', popularity: 'common' },
+        { name: '重机枪支架', color: 'green', popularity: 'common' },
+        { name: '防护罩生成器', color: 'green', popularity: 'uncommon' },
+        { name: '特斯拉塔', color: 'green', popularity: 'common' },
+        { name: '反步兵地雷', color: 'green', popularity: 'common' },
+        { name: '燃烧地雷', color: 'green', popularity: 'common' },
+        { name: '反坦克地雷', color: 'green', popularity: 'common' },
+        { name: '哨戒机枪', color: 'green', popularity: 'common' },
+        { name: '哨戒加特林', color: 'green', popularity: 'common' },
+        { name: '迫击炮', color: 'green', popularity: 'common' },
+        { name: '电磁迫击炮', color: 'green', popularity: 'common' },
+        { name: 'AC8自动哨戒炮', color: 'green', popularity: 'common' },
+        { name: '火箭哨戒炮', color: 'green', popularity: 'common' },
+        { name: '反坦克炮台', color: 'green', popularity: 'common' },
+        { name: '毒气地雷', color: 'green', popularity: 'common' },
+        { name: '喷火炮台', color: 'green', popularity: 'common' },
+        { name: '防护墙', color: 'green', popularity: 'common' },
+
+        // --- 你新添加的战备，并修正了缺失的逗号 ---
+        { name: '突击步枪A', color: 'black', popularity: 'zhushouwuqi' }, // 主武器
+        { name: '冲锋枪B', color: 'black', popularity: 'zhushouwuqi' }, // 另一把主武器
+        { name: '手枪C', color: 'orange', popularity: 'fushouwuqi' },   // 副武器
+        { name: '匕首D', color: 'orange', popularity: 'fushouwuqi' },   // 另一把副武器
+        { name: '破片手雷E', color: 'purple', popularity: 'shoulei' }, // 手雷
+        { name: '震爆弹F', color: 'purple', popularity: 'shoulei' },   // 另一种手雷
+        { name: '突击步枪B', color: 'black', popularity: 'zhushouwuqi' }, // 示例：主武器
+        { name: '冲锋枪C', color: 'black', popularity: 'zhushouwuqi' }, // 示例：另一把主武器
+        { name: '手枪D', color: 'orange', popularity: 'fushouwuqi' },   // 示例：副武器
+        { name: '匕首E', color: 'orange', popularity: 'fushouwuqi' },   // 示例：另一把副武器
+        { name: '破片手雷F', color: 'purple', popularity: 'shoulei' }, // 示例：手雷
+        { name: '震爆弹G', color: 'purple', popularity: 'shoulei' }    // 示例：另一种手雷
+        // 添加更多的装备
+    ];
+
+    let isCooldown = false;
+
+    // 辅助函数：从特定类别中选择一个唯一物品，并将其从总可用池中移除
+    // 此函数用于确保选中的物品在类型上不重复，并且从总池中移除
+    function pickAndRemoveSpecificItem(categoryList, selectedItemsArray, availablePoolArray, warningMessage) {
+        let pickedItem = null;
+        let shuffledCategory = shuffleArray(categoryList); // 打乱类别列表
+
+        for (let i = 0; i < shuffledCategory.length; i++) {
+            const potentialItem = shuffledCategory[i];
+            // 确保这个物品还没有被选中过 (通过名称判断唯一性)
+            if (!selectedItemsArray.some(item => item.name === potentialItem.name)) {
+                pickedItem = potentialItem;
+                break; // 找到一个唯一的了
+            }
+        }
+
+        if (pickedItem) {
+            selectedItemsArray.push(pickedItem);
+            // 从总的可用池中移除这个被选中的物品，确保后续不会重复选取
+            return availablePoolArray.filter(item => item.name !== pickedItem.name);
+        } else {
+            console.warn(warningMessage + " (没有足够独特的物品可供选择，或者分类为空)");
+            return availablePoolArray; // 返回未改变的可用池
+        }
+    }
+
+    // 核心选择函数
+    function selectRandomItems(difficulty) {
+        if (isCooldown) {
+            return;
+        }
+
+        isCooldown = true;
+        document.getElementById('cooldownMessage').innerText = '';
+
+        let resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = '';
+
+        // 预先筛选出不同类别的装备列表
+        // 这些筛选操作在每次函数调用时执行，确保使用最新的 items 数组
+        let redItems = items.filter(item => item.color === 'red');
+        let blueItems = items.filter(item => item.color === 'blue');
+        let greenItems = items.filter(item => item.color === 'green');
+        let commonItems = items.filter(item => item.popularity === 'common');
+        let uncommonItems = items.filter(item => item.popularity === 'uncommon');
+
+        // 专门筛选主武、副武、手雷的类别 (假定 popularity 被用作这些类型标记)
+        const specificWeaponTypes = ['zhushouwuqi', 'fushouwuqi', 'shoulei'];
+        let zhushouwuqiItems = items.filter(item => item.popularity === 'zhushouwuqi');
+        let fushouwuqiItems = items.filter(item => item.popularity === 'fushouwuqi');
+        let shouleiItems = items.filter(item => item.popularity === 'shoulei');
+
+        // 定义“普通战备”的筛选，即排除主武、副武、手雷这三类
+        let generalWarfareItems = items.filter(item => !specificWeaponTypes.includes(item.popularity));
+
+
+        let selectedItems = []; // 用于存放最终选出的战备
+        let currentAvailableItems = [...items]; // 复制所有战备，作为总的可用池，每次选取后从中移除，确保不重复
+
+        // ----- 难度选择逻辑 -----
+        if (difficulty === 1) {
+            // 难度1：2红1蓝1绿 (总共4个)
+            // 确保这4个在类型上不重复 (最多1个主武，最多1个副武，最多1个手雷)
+            selectedItems = pickItemsWithCategoryConstraint(
+                generalWarfareItems, // 优先从普通战备中选，因为它本身就不包含主副手雷
+                4, // 需要总数
+                [
+                    { category: redItems, count: 2 },
+                    { category: blueItems, count: 1 },
+                    { category: greenItems, count: 1 }
+                ],
+                specificWeaponTypes // 需要避免的特定 popularity 类型
+            );
+
+        } else if (difficulty === 2) {
+            // 难度2：非冷门 (只选 popularity 为 'common' 的，总共4个)
+            // 确保类型不重复 (最多1个主武，最多1个副武，最多1个手雷)
+            let commonGeneralItems = commonItems.filter(item => !specificWeaponTypes.includes(item.popularity)); // 从常见中排除主副手雷
+            selectedItems = pickItemsWithCategoryConstraint(
+                commonGeneralItems, // 从常见且普通战备中选
+                4, // 需要总数
+                [], // 没有额外的颜色/类型数量限制
+                specificWeaponTypes // 需要避免的特定 popularity 类型
+            );
+
+        } else if (difficulty === 3) {
+            // 难度3：只有战备 (排除主武、副武、手雷，总共4个)
+            selectedItems = pickItemsWithCategoryConstraint(
+                generalWarfareItems, // 只从普通战备中选
+                4, // 需要总数
+                [], // 没有额外的颜色/类型数量限制
+                specificWeaponTypes // 需要避免的特定 popularity 类型
+            );
+
+        } else if (difficulty === 4) {
+            // 难度4：总共选择 7 个战备：1主武 + 1副武 + 1手雷 + 4个其他随机战备 (所有互不重复)
+
+            // 1. 随机选择1个主武器
+            currentAvailableItems = pickAndRemoveSpecificItem(zhushouwuqiItems, selectedItems, currentAvailableItems, "主武器");
+
+            // 2. 随机选择1个副武器
+            currentAvailableItems = pickAndRemoveSpecificItem(fushouwuqiItems, selectedItems, currentAvailableItems, "副武器");
+
+            // 3. 随机选择1个手雷
+            currentAvailableItems = pickAndRemoveSpecificItem(shouleiItems, selectedItems, currentAvailableItems, "手雷");
+
+            // 4. 从剩余的“普通战备”（排除主武、副武、手雷）中，随机选择4个（作为“额外战备”，确保不重复）
+            // 过滤掉所有特定武器类型的物品，只保留普通战备
+            let remainingGeneralWarfareItems = currentAvailableItems.filter(item => !specificWeaponTypes.includes(item.popularity));
+
+            let remainingToPick = 4; // 需要从普通战备中选4个
+            if (remainingGeneralWarfareItems.length > 0) {
+                let generalRandomItems = shuffleArray(remainingGeneralWarfareItems).slice(0, remainingToPick);
+                selectedItems.push(...generalRandomItems);
+            } else {
+                console.warn("普通战备列表太少，无法选取额外4个随机战备。");
+            }
+
+            // 确保最终只显示7个，如果由于源列表不足导致选不到7个，则显示实际选到的数量
+            selectedItems = selectedItems.slice(0, 7);
+
+        }
+        // 你可以继续添加难度5、难度6的逻辑，例如：
+        // else if (difficulty === 5) {
+        //     // 难度5的逻辑
+        // } else if (difficulty === 6) {
+        //     // 难度6的逻辑
+        // }
+
+        // --- 显示结果 ---
+        selectedItems.forEach(item => {
+            let itemDiv = document.createElement('div');
+            itemDiv.className = 'item';
+            itemDiv.innerHTML = `<h3 class="${item.color}">${item.name}</h3>`;
+            resultDiv.appendChild(itemDiv);
+        });
+
+        document.getElementById('cooldownMessage').innerText = 'Enjoy it~';
+
+        // 冷却时间
+        setTimeout(() => {
+            isCooldown = false;
+            document.getElementById('cooldownMessage').innerText = '';
+        }, 20000); // 20秒冷却时间
+    }
+
+    // Fisher-Yates 洗牌算法 (保持不变)
+    function shuffleArray(array) {
+        let shuffledArray = array.slice(); // 复制数组
+        for (let i = shuffledArray.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+        }
+        return shuffledArray;
+    }
+
+    // 新增辅助函数：智能选取N个物品，避免特定类型重复
+    // totalPool: 从哪个池子里面选 (e.g., generalWarfareItems, commonGeneralItems)
+    // requiredCount: 需要选取的总数量 (e.g., 4)
+    // categoryConstraints: 针对颜色/特定popularity类型的额外限制 [{ category: redItems, count: 2 }]
+    // excludedPopularityTypes: 额外的要排除的 popularity 类型列表 (例如主武、副武、手雷)
+    function pickItemsWithCategoryConstraint(totalPool, requiredCount, categoryConstraints, excludedPopularityTypes) {
+        let result = [];
+        let currentAvailable = shuffleArray(totalPool); // 打乱总池
+        let selectedPopularityTypesInResult = new Set(); // 记录已选的特定 popularity 类型 (主武、副武、手雷)
+
+        // 初始化颜色计数器
+        let colorCounts = { red: 0, blue: 0, green: 0 };
+        let colorLimits = {};
+        if (categoryConstraints) {
+            categoryConstraints.forEach(c => {
+                if (c.category.length > 0 && c.category[0].color) { // 假设类别里有颜色属性
+                    colorLimits[c.category[0].color] = c.count;
+                }
+            });
+        }
+
+        // Step 1: 尝试选取满足颜色或特定类别数量限制的物品 (如难度1的颜色配额)
+        // 遍历所有可能的物品，并尝试添加，遵循各种限制
+        for (let i = 0; i < currentAvailable.length && result.length < requiredCount; i++) {
+            const itemToPick = currentAvailable[i];
+
+            // 检查是否是需要排除的特定popularity类型（如主武、副武、手雷）
+            if (excludedPopularityTypes.includes(itemToPick.popularity)) {
+                // 如果该popularity类型已被选中过一个，则跳过此物品 (避免重复类型)
+                if (selectedPopularityTypesInResult.has(itemToPick.popularity)) {
+                    continue;
+                }
+            }
+
+            // 检查颜色限制 (主要针对难度1)
+            if (colorLimits[itemToPick.color] !== undefined && colorCounts[itemToPick.color] >= colorLimits[itemToPick.color]) {
+                continue; // 这种颜色的配额已满
+            }
+
+            // 物品有效，添加
+            result.push(itemToPick);
+            currentAvailable = currentAvailable.filter(item => item.name !== itemToPick.name); // 从可用池中移除
+
+            // 更新计数
+            if (colorCounts[itemToPick.color] !== undefined) {
+                colorCounts[itemToPick.color]++;
+            }
+            if (excludedPopularityTypes.includes(itemToPick.popularity)) {
+                selectedPopularityTypesInResult.add(itemToPick.popularity);
+            }
+        }
+
+        // Step 2: 填充剩余的数量，从剩余的 currentAvailable 中随机选择
+        while (result.length < requiredCount && currentAvailable.length > 0) {
+            const itemToPick = currentAvailable.shift(); // 取出第一个
+
+            // 再次检查是否是需要排除的特定popularity类型，如果是且已选过，则跳过
+            if (excludedPopularityTypes.includes(itemToPick.popularity)) {
+                if (selectedPopularityTypesInResult.has(itemToPick.popularity)) {
+                    continue;
+                }
+            }
+
+            // 检查颜色限制 (如果还有，且针对难度1)
+            if (colorLimits[itemToPick.color] !== undefined && colorCounts[itemToPick.color] >= colorLimits[itemToPick.color]) {
+                continue; // 这种颜色的配额已满
+            }
+
+            result.push(itemToPick);
+            if (colorCounts[itemToPick.color] !== undefined) {
+                colorCounts[itemToPick.color]++;
+            }
+            if (excludedPopularityTypes.includes(itemToPick.popularity)) {
+                selectedPopularityTypesInResult.add(itemToPick.popularity);
+            }
+        }
+        return result;
+    }
+</script>
+</body>
+</html>
