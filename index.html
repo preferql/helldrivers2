@@ -405,23 +405,29 @@
             function enforceLimits(selectedItems) {
             	const backpackItems = [
             		'跳包','补给背包','激光护卫犬','步枪护卫犬','毒气护卫犬','火焰护卫犬',
-            		'电弧护卫犬','防弹盾','蛋盾','传送背包','悬浮背包','地狱火背包'
+            		'电弧护卫犬','防弹盾','蛋盾','传送背包','悬浮背包','地狱火背包','单向护盾'
             	];
             	const armorItems = [
             		'爱国者动力装甲','黑曜石动力装甲'
             	];
             	const slot3Items = [
             		'MG43机枪','反器材狙','M105盟友','喷火器','喷毒器','磁轨炮','MG206重机枪','毒矛',
-            		'电弧发射器','机炮','空爆火箭','飞矛','榴弹发射器','类星体','缓和使者-电榨弹',
-            		'纪元-大净化','重装机枪-背包供弹','链锯剑-除叶工具','唯一真旗','激光大炮'
+            		'电弧发射器','榴弹发射器','类星体','缓和使者-电榴弹',
+            		'纪元-大净化','链锯剑-除叶工具','唯一真旗','激光大炮'
+            	];
+            	const slot4Items = [
+            		'机炮','空爆火箭','飞矛','重装机枪-背包供弹','无后座','W.A.S.P发射器'
             	];
 
             function replaceDuplicates(categoryList) {
             	let count = selectedItems.filter(i => categoryList.includes(i.name)).length;
             	while (count > 1) {
                 	let indexToReplace = selectedItems.findIndex(i => categoryList.includes(i.name));
-                	let availablePool = items.filter(i => !selectedItems.includes(i));
-                	let replacementCandidates = availablePool.filter(i => !categoryList.includes(i.name));
+                	// 从未选中过的 items 中找候选
+                	let replacementCandidates = items.filter(i => 
+                		!selectedItems.some(x => x.name === i.name) && 
+                		!categoryList.includes(i.name)
+                	);
                 	if (replacementCandidates.length === 0) break;
                 	let replacement = shuffleArray(replacementCandidates)[0];
                 	selectedItems[indexToReplace] = replacement;
@@ -432,6 +438,33 @@
             replaceDuplicates(backpackItems);
             replaceDuplicates(armorItems);
             replaceDuplicates(slot3Items);
+
+            // 2. 背包武器位 slot4Items：最多一个，并且互斥 backpackItems 和 slot3Items
+            let slot4Count = selectedItems.filter(i => slot4Items.includes(i.name)).length;
+            function hasConflictSlot4() {
+            	let hasSlot4 = selectedItems.some(i => slot4Items.includes(i.name));
+            	let hasBackpack = selectedItems.some(i => backpackItems.includes(i.name));
+            	let hasSlot3 = selectedItems.some(i => slot3Items.includes(i.name));
+            	return hasSlot4 && (hasBackpack || hasSlot3) || slot4Count > 1;
+            }
+
+            while (hasConflictSlot4()) {
+            	let indexToReplace = selectedItems.findIndex(i => slot4Items.includes(i.name));
+            	if (indexToReplace === -1) break;
+
+        // 替换候选：不在 selectedItems 中，且不是 slot4Items / backpackItems / slot3Items
+            	let replacementCandidates = items.filter(i =>
+            		!selectedItems.some(x => x.name === i.name) &&
+            		!slot4Items.includes(i.name) &&
+            		!backpackItems.includes(i.name) &&
+            		!slot3Items.includes(i.name)
+            	);
+            	if (replacementCandidates.length === 0) break;
+            	let replacement = shuffleArray(replacementCandidates)[0];
+            	selectedItems[indexToReplace] = replacement;
+
+            	slot4Count = selectedItems.filter(i => slot4Items.includes(i.name)).length;
+            }
 
             return selectedItems;
         }
@@ -558,4 +591,5 @@
 </script>
 </body>
 </html>
+
 
