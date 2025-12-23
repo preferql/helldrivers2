@@ -92,6 +92,7 @@
     <button id="randomButton2" onclick="selectRandomItems(2)">难度2(非冷门)</button>
     <button id="randomButton3" onclick="selectRandomItems(3)">难度3(只有战备)</button>
     <button id="randomButton4" onclick="selectRandomItems(4)">难度4(4战备+1主+1副+1雷)</button>
+    <button id="randomButton5" onclick="selectRandomItems(5)">难度4人性化</button>
 
     <div id="result"></div>
     <div id="cooldownMessage"></div>
@@ -101,10 +102,13 @@
         { name: '跳包', color: 'blue', popularity: 'uncommon' },
         { name: '补给背包', color: 'blue', popularity: 'common' },
         { name: '激光护卫犬', color: 'blue', popularity: 'common' },
-        { name: '步枪护卫犬', color: 'blue', popularity: 'uncommon' },
+        { name: '步枪护卫犬', color: 'blue', popularity: 'common' },
         { name: '毒气护卫犬', color: 'blue', popularity: 'uncommon' },
+        { name: '火焰护卫犬', color: 'blue', popularity: 'common' },
+        { name: '电弧护卫犬', color: 'blue', popularity: 'uncommon' },
         { name: '防弹盾', color: 'blue', popularity: 'uncommon' },
         { name: '蛋盾', color: 'blue', popularity: 'common' },
+        { name: '传送背包', color: 'blue', popularity: 'common' },
         { name: 'MG43机枪', color: 'blue', popularity: 'common' },
         { name: '反器材狙', color: 'blue', popularity: 'common' },
         { name: 'M105盟友', color: 'blue', popularity: 'common' },
@@ -113,17 +117,26 @@
         { name: '喷火器', color: 'blue', popularity: 'common' },
         { name: '喷毒器', color: 'blue', popularity: 'uncommon' },
         { name: 'W.A.S.P发射器', color: 'blue', popularity: 'common' },
+        { name: '空爆火箭', color: 'blue', popularity: 'common' },
+        { name: '毒矛', color: 'blue', popularity: 'common' },
         { name: '机炮', color: 'blue', popularity: 'common' },
         { name: 'MG206重机枪', color: 'blue', popularity: 'common' },
         { name: '磁轨炮', color: 'blue', popularity: 'common' },
         { name: '飞矛', color: 'blue', popularity: 'common' },
         { name: '榴弹发射器', color: 'blue', popularity: 'common' },
         { name: '激光大炮', color: 'blue', popularity: 'common' },
-        { name: '电弧', color: 'blue', popularity: 'common' },
+        { name: '电弧发射器', color: 'blue', popularity: 'common' },
         { name: '类星体', color: 'blue', popularity: 'common' },
         { name: '悬浮背包', color: 'blue', popularity: 'common' },
         { name: '地狱火背包', color: 'blue', popularity: 'common' },
         { name: '突击兵', color: 'blue', popularity: 'common' },
+        { name: '唯一真旗', color: 'blue', popularity: 'common' },
+        { name: '缓和使者-电榴弹', color: 'blue', popularity: 'common' },
+        { name: '纪元-大净化', color: 'blue', popularity: 'common' },
+        { name: '单兵导弹井', color: 'blue', popularity: 'common' },
+        { name: '火焰次抛', color: 'blue', popularity: 'common' },
+        { name: '重装机枪-背包供弹', color: 'blue', popularity: 'common' },
+        { name: '链锯剑-除叶工具', color: 'blue', popularity: 'common' },
         { name: '爱国者动力装甲', color: 'blue', popularity: 'common' },
         { name: '黑曜石动力装甲', color: 'blue', popularity: 'common' },
         { name: '侦查小车', color: 'blue', popularity: 'uncommon' },
@@ -159,16 +172,21 @@
         { name: '电磁迫击炮', color: 'green', popularity: 'common' },
         { name: 'AC8自动哨戒炮', color: 'green', popularity: 'common' },
         { name: '火箭哨戒炮', color: 'green', popularity: 'common' },
-        { name: '反坦克炮台', color: 'green', popularity: 'common' },
+        { name: '反坦克炮台-手动', color: 'green', popularity: 'common' },
         { name: '毒气地雷', color: 'green', popularity: 'common' },
         { name: '喷火炮台', color: 'green', popularity: 'common' },
         { name: '防护墙', color: 'green', popularity: 'common' },
+        { name: '激光哨戒炮', color: 'green', popularity: 'common' },
 
         // --- 你新添加的战备，并修正了缺失的逗号 ---
         { name: 'AR-23解放者', color: 'black', popularity: 'zhushouwuqi' }, // 主武器
         { name: 'AR-23P穿甲解放者', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'AR-23C震荡解放者', color: 'black', popularity: 'zhushouwuqi' },
+        { name: 'AR GL-21 幺二', color: 'black', popularity: 'zhushouwuqi' },
+        { name: 'StA-52突击步枪', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'AR-32安抚者', color: 'black', popularity: 'zhushouwuqi' },
+        { name: 'AR-2野狼', color: 'black', popularity: 'zhushouwuqi' },
+        { name: 'MA5C突击步枪', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'AR-23A解放者卡宾枪', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'AR-61肉锤', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'BR-14审判者', color: 'black', popularity: 'zhushouwuqi' },
@@ -176,7 +194,9 @@
         { name: 'R-2124宪法', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'R-6鹰眼', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'R-63勤勉', color: 'black', popularity: 'zhushouwuqi' },
+        { name: 'R-63CS反狙击勤勉', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'S-tA11冲锋枪', color: 'black', popularity: 'zhushouwuqi' },
+        { name: 'M7S冲锋枪', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'SMG-32训斥', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'SMG-37防卫者', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'SMG-72暴击斗士', color: 'black', popularity: 'zhushouwuqi' },
@@ -184,30 +204,35 @@
         { name: 'SG-8S重炮手', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'SG-20止息', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'SG-451野炊', color: 'black', popularity: 'zhushouwuqi' },
+        { name: 'DBS-2双重自由', color: 'black', popularity: 'zhushouwuqi' },
+        { name: 'M90A霰弹枪', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'SG-225破裂者', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'SG-225SP弥漫与祷告的破灭者', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'SG-225IE高燃破裂者', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'CB-9爆燃弩', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'R-36爆裂铳', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'SG-8P等离子制裁者', color: 'black', popularity: 'zhushouwuqi' },
-        { name: 'PLAS-39加速步枪', color: 'black', popularity: 'zhushouwuqi' },
+        { name: 'PLAS-39加速步枪（没有则使用鹰眼）', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'ARC-12雷霆', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'LAS-5长柄镰', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'LAS-16镰刀', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'LAS-17双刃镰刀', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'PLAS-1焦土', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'PLAS-101净化者', color: 'black', popularity: 'zhushouwuqi' },
+        { name: 'VG70变数', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'FLAM-66火炬手', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'JAR-5主宰', color: 'black', popularity: 'zhushouwuqi' },
         { name: 'P-92法令', color: 'orange', popularity: 'fushouwuqi' },   // 副武器
         { name: 'P-2和平制造者', color: 'orange', popularity: 'fushouwuqi' },
         { name: 'P-19救世主', color: 'orange', popularity: 'fushouwuqi' },
+        { name: 'M6C特种作战 手枪', color: 'orange', popularity: 'fushouwuqi' },
         { name: 'P-113裁决', color: 'orange', popularity: 'fushouwuqi' },
         { name: 'P-4参议员', color: 'orange', popularity: 'fushouwuqi' },
         { name: 'CQC-19眩晕长矛', color: 'orange', popularity: 'fushouwuqi' },
         { name: 'CQC-2军刀', color: 'orange', popularity: 'fushouwuqi' },
         { name: 'CQC-30眩晕短棍', color: 'orange', popularity: 'fushouwuqi' },
         { name: 'CQC-5蘸豆短柄斧', color: 'orange', popularity: 'fushouwuqi' },
+        { name: 'CQC-42砍刀', color: 'orange', popularity: 'fushouwuqi' },
         { name: 'P-11治疗剂手枪', color: 'orange', popularity: 'fushouwuqi' },
         { name: 'SG-22游击兵', color: 'orange', popularity: 'fushouwuqi' },
         { name: 'LAS-58猛爪', color: 'orange', popularity: 'fushouwuqi' },
@@ -217,14 +242,17 @@
         { name: 'GP-20最后通牒', color: 'orange', popularity: 'fushouwuqi' },
         { name: 'PLAS-5忠诚者', color: 'orange', popularity: 'fushouwuqi' },
         { name: 'TED-63炸药', color: 'purple', popularity: 'shoulei' }, // 手雷
+        { name: 'G-7菠萝', color: 'purple', popularity: 'shoulei' },
         { name: 'G-6破片弹', color: 'purple', popularity: 'shoulei' },
         { name: 'G-12高爆弹', color: 'purple', popularity: 'shoulei' },
         { name: 'G-10燃烧弹', color: 'purple', popularity: 'shoulei' },
-        { name: 'G-16冲鸡蛋', color: 'purple', popularity: 'shoulei' },
-        { name: 'G-13燃烧冲鸡蛋', color: 'purple', popularity: 'shoulei' },
+        { name: 'G-31电弧', color: 'purple', popularity: 'shoulei' },
+        { name: 'G-16冲击弹', color: 'purple', popularity: 'shoulei' },
+        { name: 'G-13燃烧充饥蛋', color: 'purple', popularity: 'shoulei' },
         { name: 'G-23眩晕弹', color: 'purple', popularity: 'shoulei' },
         { name: 'G-4毒气榴弹', color: 'purple', popularity: 'shoulei' },
         { name: 'G-50寻踪者无人机', color: 'purple', popularity: 'shoulei' },
+        { name: 'G-3烟雾弹', color: 'purple', popularity: 'shoulei' },
         { name: 'G-123铝热手雷', color: 'purple', popularity: 'shoulei' },
         { name: 'G-109玩具海胆', color: 'purple', popularity: 'shoulei' },
         { name: 'K-2飞刀', color: 'purple', popularity: 'shoulei' },
@@ -350,11 +378,71 @@
             } else {
                 console.warn("普通战备列表太少，无法选取额外4个随机战备。");
             }
-
             // 确保最终只显示7个，如果由于源列表不足导致选不到7个，则显示实际选到的数量
             selectedItems = selectedItems.slice(0, 7);
 
+        
+
+        } else if (difficulty === 5) {
+            // 难度4人性化版本：总共选择 7 个战备：1主武 + 1副武 + 1手雷 + 4个其他随机战备 (局部限制)
+
+            // 1. 随机选择1个主武器
+            currentAvailableItems = pickAndRemoveSpecificItem(zhushouwuqiItems, selectedItems, currentAvailableItems, "主武器");
+
+            // 2. 随机选择1个副武器
+            currentAvailableItems = pickAndRemoveSpecificItem(fushouwuqiItems, selectedItems, currentAvailableItems, "副武器");
+
+            // 3. 随机选择1个手雷
+            currentAvailableItems = pickAndRemoveSpecificItem(shouleiItems, selectedItems, currentAvailableItems, "手雷");
+
+            // 4. 随机选择4个普通战备（排除主武、副武、手雷）
+            let remainingGeneralWarfareItems = currentAvailableItems.filter(item => !specificWeaponTypes.includes(item.popularity));
+            let remainingToPick = 4;
+            let extraItems = shuffleArray(remainingGeneralWarfareItems).slice(0, remainingToPick);
+            selectedItems.push(...extraItems);
+
+            // 5. 事后修正：保证三个局部限制
+            function enforceLimits(selectedItems) {
+            	const backpackItems = [
+            		'跳包','补给背包','激光护卫犬','步枪护卫犬','毒气护卫犬','火焰护卫犬',
+            		'电弧护卫犬','防弹盾','蛋盾','传送背包','悬浮背包','地狱火背包'
+            	];
+            	const armorItems = [
+            		'爱国者动力装甲','黑曜石动力装甲'
+            	];
+            	const slot3Items = [
+            		'MG43机枪','反器材狙','M105盟友','喷火器','喷毒器','磁轨炮','MG206重机枪','毒矛',
+            		'电弧发射器','机炮','空爆火箭','飞矛','榴弹发射器','类星体','缓和使者-电榨弹',
+            		'纪元-大净化','重装机枪-背包供弹','链锯剑-除叶工具','唯一真旗','激光大炮'
+            	];
+
+            function replaceDuplicates(categoryList) {
+            	let count = selectedItems.filter(i => categoryList.includes(i.name)).length;
+            	while (count > 1) {
+                	let indexToReplace = selectedItems.findIndex(i => categoryList.includes(i.name));
+                	let availablePool = items.filter(i => !selectedItems.includes(i));
+                	let replacementCandidates = availablePool.filter(i => !categoryList.includes(i.name));
+                	if (replacementCandidates.length === 0) break;
+                	let replacement = shuffleArray(replacementCandidates)[0];
+                	selectedItems[indexToReplace] = replacement;
+                	count = selectedItems.filter(i => categoryList.includes(i.name)).length;
+            	}
+            }
+
+            replaceDuplicates(backpackItems);
+            replaceDuplicates(armorItems);
+            replaceDuplicates(slot3Items);
+
+            return selectedItems;
         }
+
+        // 调用事后修正函数
+        selectedItems = enforceLimits(selectedItems);
+
+        // 确保总数不超过7个
+        selectedItems = selectedItems.slice(0, 7);
+        }
+
         // 你可以继续添加难度5、难度6的逻辑，例如：
         // else if (difficulty === 5) {
         //     // 难度5的逻辑
@@ -470,3 +558,4 @@
 </script>
 </body>
 </html>
+
